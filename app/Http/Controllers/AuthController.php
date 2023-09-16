@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UserLoginRequest;
+use App\Http\Requests\User\UserRegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,14 +25,14 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
         $validator = Validator::make($request->all(), $request->rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
         if (!$token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email or password is incorrect'], 422);
         }
         return $this->createNewToken($token);
     }
@@ -39,7 +41,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(UserRegisterRequest $request)
     {
         $validator = Validator::make($request->all(), $request->rules());
         if ($validator->fails()) {
