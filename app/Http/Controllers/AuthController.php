@@ -101,4 +101,15 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
+
+    public function updateProfile(Request $request)
+    {
+       $data = $request->validate([
+                'current_password' => ['required', 'string'],
+                'password' => ['required','string', 'confirmed'],
+        ]);
+        $user = $request->user()->update($request->except("password"));
+
+        return response()->json(["data" => $request->user()]);
+    }
 }
