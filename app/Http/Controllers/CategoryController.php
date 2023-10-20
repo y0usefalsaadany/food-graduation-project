@@ -30,4 +30,11 @@ class CategoryController extends Controller
             "data" => $categories
         ]);
     }
+    public function show($id)
+    {
+        $categories = Category::with('products')->find($id)->latest();
+        return response()->json([
+            "data" => $categories
+        ]);
+    }
 }

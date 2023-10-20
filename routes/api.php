@@ -19,6 +19,7 @@ Route::group([
 Route::controller(CategoryController::class)->group(function () {
     Route::post('/category/add', 'store');
     Route::get('/category/all', 'index');
+    Route::get('/category/show/{id}', 'show');
     Route::get('/category/list', 'list');
 });
 Route::controller(ProductController::class)->group(function () {
