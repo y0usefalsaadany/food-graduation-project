@@ -32,7 +32,7 @@ class CategoryController extends Controller
     }
     public function show($id)
     {
-        $categories = Category::find($id);
+        $categories = Category::with('products')->find($id);
         return response()->json([
             "data" => $categories
         ]);
